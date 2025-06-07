@@ -9,7 +9,7 @@ Generate beautiful, responsive landing pages with AI. Just describe what you wan
 1. **Clone and install**
    ```bash
    git clone <your-repo-url>
-   cd ai-landing-page-generator
+   cd <project-directory>
    npm install
    ```
 
