@@ -19,9 +19,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Password must be at least 6 characters long" }, { status: 400 })
     }
 
-    // Check if user already exists
-    const { data: existingUser } = await supabase.auth.admin.getUserById(email)
-    if (existingUser.user) {
+   // Check if user already exists
+    const { data: existingUsers, error: checkError } = await supabase.auth.admin.listUsers()
+    
+    if (checkError) {
+      console.error("Error checking existing users:", checkError)
+      return NextResponse.json({ message: "Error checking user existence" }, { status: 500 })
+    }
+
+    const userExists = existingUsers.users.some(user => user.email === email)
+    
+    if (userExists) {
       return NextResponse.json(
         { message: "User with this email already exists" },
         { status: 409 }
